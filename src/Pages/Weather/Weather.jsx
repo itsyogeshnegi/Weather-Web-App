@@ -3,6 +3,9 @@ import axios from "axios";
 import DateTime from "../../Components/DateTime";
 import Box from "../../Components/Box";
 import { useNavigate } from "react-router-dom";
+import { ProgressBar } from "react-loader-spinner";
+import { Slide, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Weather = () => {
   const [data, setData] = useState({});
@@ -11,7 +14,7 @@ const Weather = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const fetchWeatherData = async (url) => {
+  const fetchWeatherData = async url => {
     try {
       const response = await axios.get(url);
       setData(response.data);
@@ -24,7 +27,7 @@ const Weather = () => {
   const fetchWeatherDataByLocation = async () => {
     try {
       if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(async (position) => {
+        navigator.geolocation.getCurrentPosition(async position => {
           const { latitude, longitude } = position.coords;
           const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=4bd2837c0343413245cee938f064c19b`;
           await fetchWeatherData(url);
@@ -38,7 +41,7 @@ const Weather = () => {
     }
   };
 
-  const handleCityClick = async (selectedCity) => {
+  const handleCityClick = async selectedCity => {
     setCity(selectedCity);
     setLoading(true);
     if (selectedCity === "") {
@@ -48,6 +51,14 @@ const Weather = () => {
       await fetchWeatherData(apiCityWise);
       setLoading(false);
     }
+  };
+
+  const logOut = () => {
+    localStorage.removeItem("yourName");
+    toast.info("Thank you for visit")
+    setTimeout(() => {
+      navigate("/");
+    }, 1200);
   };
 
   useEffect(() => {
@@ -61,7 +72,18 @@ const Weather = () => {
   return (
     <div className="bg-sky-600 h-screen w-full max-md:h-auto">
       {loading ? (
-        <div className="h-screen w-screen flex justify-center items-center text-4xl text-white font-bold">Your data is fetching please wait...</div>
+        <div className="h-screen w-screen flex flex-col justify-center items-center text-4xl text-white font-bold">
+          data is fetching...
+          <ProgressBar
+            visible={true}
+            height="80"
+            width="300px"
+            color="#4fa94d"
+            ariaLabel="progress-bar-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+          />
+        </div>
       ) : (
         <div>
           <div className="h-14 w-full bg-sky-800 text-white flex justify-between items-center">
@@ -74,8 +96,7 @@ const Weather = () => {
             </div>
             <div
               className="h-[80%] w-36 bg-sky-600 rounded-md mx-2 flex justify-evenly items-center"
-              onClick={() => navigate("/")}
-            >
+              onClick={logOut}>
               <p className="text-sm font-semibold italic">LogOut</p>
               <img src="/icon/logOut.png" className="h-4/5" />
             </div>
@@ -84,32 +105,27 @@ const Weather = () => {
             <div className="bg-sky-800 text-white h-auto py-4 flex-wrap rounded-md my-2 flex justify-around items-center">
               <div
                 onClick={() => handleCityClick("Delhi")}
-                className="h-4/5 px-5 my-2 min-w-28  cursor-pointer shadow-lg py-2 text-white bg-sky-600 rounded-md flex justify-center items-center font-semibold"
-              >
+                className="h-4/5 px-5 my-2 min-w-28  cursor-pointer shadow-lg py-2 text-white bg-sky-600 rounded-md flex justify-center items-center font-semibold">
                 Delhi
               </div>
               <div
                 onClick={() => handleCityClick("Mumbai")}
-                className="h-4/5 px-5 my-2 min-w-28 cursor-pointer shadow-lg py-2 text-white bg-sky-600 rounded-md flex justify-center items-center font-semibold"
-              >
+                className="h-4/5 px-5 my-2 min-w-28 cursor-pointer shadow-lg py-2 text-white bg-sky-600 rounded-md flex justify-center items-center font-semibold">
                 Mumbai
               </div>
               <div
                 onClick={() => handleCityClick("")}
-                className="h-4/5 px-5 my-2 min-w-28 cursor-pointer shadow-lg py-2 text-white bg-sky-600 rounded-md flex justify-center items-center font-semibold"
-              >
+                className="h-4/5 px-5 my-2 min-w-28 cursor-pointer shadow-lg py-2 text-white bg-sky-600 rounded-md flex justify-center items-center font-semibold">
                 Live
               </div>
               <div
                 onClick={() => handleCityClick("Kolkata")}
-                className="h-4/5 px-5 my-2 min-w-28 cursor-pointer shadow-lg py-2 text-white bg-sky-600 rounded-md flex justify-center items-center font-semibold"
-              >
+                className="h-4/5 px-5 my-2 min-w-28 cursor-pointer shadow-lg py-2 text-white bg-sky-600 rounded-md flex justify-center items-center font-semibold">
                 Kolkata
               </div>
               <div
                 onClick={() => handleCityClick("Chennai")}
-                className="h-4/5 px-5 my-2 min-w-28 cursor-pointer shadow-lg py-2 text-white bg-sky-600 rounded-md flex justify-center items-center font-semibold"
-              >
+                className="h-4/5 px-5 my-2 min-w-28 cursor-pointer shadow-lg py-2 text-white bg-sky-600 rounded-md flex justify-center items-center font-semibold">
                 Chennai
               </div>
             </div>
@@ -144,6 +160,19 @@ const Weather = () => {
           </div>
         </div>
       )}
+      <ToastContainer
+        position="top-center"
+        autoClose={1000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Slide}
+      />
     </div>
   );
 };
