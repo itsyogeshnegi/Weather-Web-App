@@ -54,7 +54,7 @@ const Weather = () => {
   };
 
   const logOut = () => {
-    localStorage.removeItem("yourName");
+    localStorage.clear("yourName");
     toast.info("Thank you for visit")
     setTimeout(() => {
       navigate("/");

@@ -5,15 +5,6 @@ import { useNavigate } from "react-router-dom";
 const Intro = () => {
   const [yourName, setYourName] = useState("");
   const navigate = useNavigate();
-  // Retrieve name from local storage on component mount
-  // useEffect(() => {
-  //   const storedName = localStorage.getItem("yourName");
-  //   if (storedName) {
-  //     setYourName(storedName);
-  //     toast.success(`Welcome back ${storedName}`);
-  //   }
-  // }, []);
-
   const setMyName = () => {
     if (!yourName) {
       toast.error("Please fill your name");
