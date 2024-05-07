@@ -70,7 +70,7 @@ const Weather = () => {
   }, []);
 
   return (
-    <div className="bg-sky-600 h-screen w-full max-md:h-auto">
+    <div className="bg-sky-600 min-h-screen w-full max-md:h-auto">
       {loading ? (
         <div className="h-screen w-screen flex flex-col justify-center items-center text-4xl text-white font-bold">
           data is fetching...
