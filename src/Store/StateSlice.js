@@ -7,7 +7,7 @@ export const stateSlice = createSlice({
   },
   reducers: {
     liveLocation: (state, action) => {
-      
+
     },
     stateWise: (state, action) => {},
     searchWise: (state, action) => {},
@@ -16,4 +16,4 @@ export const stateSlice = createSlice({
 
 export const { liveLocation, stateWise, searchWise } = stateSlice.actions;
 
-export default stateSlice.reducer;
+export default stateSlice.reducer; 

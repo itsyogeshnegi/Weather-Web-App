@@ -133,7 +133,11 @@ const Weather = () => {
               <Box gridW={"col-span-2"} weatherValue={<DateTime />} />
               <Box
                 name={"Temperature"}
-                weatherValue={`${Math.round(data?.main?.temp - 273.15)}°C`}
+                weatherValue={`${Math.round(
+                  data?.main?.temp - 273.15
+                )}°C | ${Math.round(
+                  ((data?.main?.temp - 273.15) * 9) / 5 + 32
+                )}°F`}
               />
               <Box name={"City"} weatherValue={data?.name} />
               <Box
